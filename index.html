@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página con Selector de Idiomas</title>
+    <style>
+        /* Estilos del fondo */
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('fondo.PNG'); /* Fondo de la página */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Selector de idiomas */
+        .language-dropdown {
+            position: absolute;
+            top: 10px;
+            left: 90%;
+            background-color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .language-dropdown span {
+            margin-right: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .language-dropdown img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 90%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Estilo del logo principal */
+        #logo {
+            width: 300px; /* Ajusta el tamaño del logo */
+            height: auto; /* Mantén la proporción */
+            margin-bottom: 20px; /* Espacio debajo del logo */
+        }
+
+        /* Contenedor del formulario */
+        .form-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .form-container p {
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .form-container input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        input.error {
+            border: 2px solid red;
+        }
+
+        .error-container {
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+
+        button {
+            background-color: #ffffff;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Selector de idiomas -->
+    <div class="language-dropdown" id="languageSelector">
+        <span>ES</span>
+        <img src="mundo.png" alt="Icono de globo">
+    </div>
+
+    <div class="dropdown-content" id="dropdownContent">
+        <a href="#" onclick="cambiarIdioma('EN')">Inglés</a>
+        <a href="#" onclick="cambiarIdioma('ES')">Español</a>
+        <a href="#" onclick="cambiarIdioma('FR')">Francés</a>
+        <a href="#" onclick="cambiarIdioma('DE')">Alemán</a>
+    </div>
+
+    <!-- Imagen del logo -->
+    <img id="logo" src="logo.png" alt="Logo de Kahoot">
+
+    <!-- Formulario -->
+    <div class="form-container">
+        <p id="formText">Escriba aquí su nombre</p>
+        <input type="text" id="inputNombre" placeholder="Escriba aquí su nombre">
+        <button id="miBoton">Continuar</button>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div class="error-container">
+        <p id="errorMensaje" class="error-message">Por favor, ingrese su nombre</p>
+    </div>
+
+    <script>
+        const traducciones = {
+            ES: {
+                formText: "Escriba aquí su nombre",
+                inputPlaceholder: "Escriba aquí su nombre",
+                buttonText: "Continuar"
+            },
+            EN: {
+                formText: "Enter your name here",
+                inputPlaceholder: "Enter your name here",
+                buttonText: "Continue"
+            },
+            FR: {
+                formText: "Entrez votre nom ici",
+                inputPlaceholder: "Entrez votre nom ici",
+                buttonText: "Continuer"
+            },
+            DE: {
+                formText: "Geben Sie hier Ihren Namen ein",
+                inputPlaceholder: "Geben Sie hier Ihren Namen ein",
+                buttonText: "Fortfahren"
+            }
+        };
+
+        function cambiarIdioma(idioma) {
+            document.querySelector(".language-dropdown span").textContent = idioma;
+            document.getElementById("formText").textContent = traducciones[idioma].formText;
+            document.getElementById("inputNombre").placeholder = traducciones[idioma].inputPlaceholder;
+            document.getElementById("miBoton").textContent = traducciones[idioma].buttonText;
+        }
+
+        document.getElementById("languageSelector").addEventListener("click", () => {
+            const dropdownContent = document.getElementById("dropdownContent");
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        });
+
+        document.getElementById("miBoton").addEventListener("click", () => {
+            const inputNombre = document.getElementById("inputNombre");
+            const errorMensaje = document.getElementById("errorMensaje");
+
+            if (inputNombre.value.trim() === "") {
+                inputNombre.classList.add("error");
+                errorMensaje.style.display = "block";
+            } else {
+                inputNombre.classList.remove("error");
+                errorMensaje.style.display = "none";
+                window.location.href = "https://lighthearted-caramel-5f43aa.netlify.app/";
+            }
+        });
+    </script>
+</body>
+</html>
